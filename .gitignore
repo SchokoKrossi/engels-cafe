@@ -1,0 +1,9 @@
+# Full-size source photos (not used by the site, ~30 MB)
+images/originals/
+
+# Local preview config
+.claude/
+
+# OS clutter
+Thumbs.db
+.DS_Store
