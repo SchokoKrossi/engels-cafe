@@ -437,12 +437,22 @@ main:focus { outline: none; }
 .event-card p:last-child { margin: 0; color: var(--muted); }
 
 /* Event cards with the real posters */
-@media (min-width: 1000px) {
-  .events-posters { grid-template-columns: repeat(3, 1fr); }
-  .events-posters .event-card-poster { grid-template-columns: 1fr; align-items: start; }
-  .events-posters .event-poster { max-width: 260px; margin: 0 auto 4px; }
-}
+@media (min-width: 820px) { .events-posters { grid-template-columns: repeat(2, 1fr); } }
 .event-dates { color: var(--muted); margin: .6em 0 .3em; }
+
+/* Event without a poster yet */
+.event-poster-empty {
+  width: 100%; aspect-ratio: 4 / 5; display: grid; place-items: center; text-align: center;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 14px, rgba(255,255,255,.07) 14px 28px),
+    var(--accent);
+  color: #fff; font-family: var(--font-serif); font-style: italic; font-size: 1.6rem; line-height: 1.1;
+}
+
+/* Private events: text first on phones, photo left on desktop */
+.private-grid .about-photo { max-width: 420px; margin: 0 auto; }
+@media (max-width: 859px) { .private-grid .about-text { order: -1; } }
+@media (min-width: 860px) { .private-grid { grid-template-columns: .8fr 1.2fr; } }
 .event-card-poster {
   display: grid; grid-template-columns: minmax(110px, 40%) 1fr; gap: 20px; align-items: center; padding: 18px;
 }
