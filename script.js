@@ -45,6 +45,14 @@ const CONFIG = {
     '2027-01-01': []
   },
 
+  /* Recurring monthly evenings that extend the normal hours.
+     week: 1–4 = 1st–4th weekday of the month, 'last' = last one in the month.
+     Precedence: specialDays > recurring > hours. */
+  recurring: [
+    // Jam Session, last Thursday of the month, 20:00. [hours] End time 22:30 is a guess
+    { day: 'thu', week: 'last', hours: [['10:00', '22:30']] }
+  ],
+
   /* How many minutes before closing to show "closing soon" */
   closingSoonMinutes: 30,
 
@@ -268,7 +276,12 @@ const STRINGS = {
   function rangesFor(date) {
     const iso = isoDate(date);
     if (Object.prototype.hasOwnProperty.call(CONFIG.specialDays, iso)) return CONFIG.specialDays[iso];
-    return CONFIG.hours[DAY_KEYS[date.getUTCDay()]] || [];
+    const day = DAY_KEYS[date.getUTCDay()];
+    const nth = Math.ceil(date.getUTCDate() / 7);
+    const isLast = addDays(date, 7).getUTCMonth() !== date.getUTCMonth();
+    const rule = (CONFIG.recurring || []).find((r) => r.day === day && (r.week === 'last' ? isLast : r.week === nth));
+    if (rule) return rule.hours;
+    return CONFIG.hours[day] || [];
   }
 
   /* Returns { open: true, closes } or { open: false, nextDayOffset, opens } */
@@ -419,7 +432,7 @@ const STRINGS = {
   }
 
   if (lightbox && typeof lightbox.showModal === 'function') {
-    const LB_LINKS = '.gallery-link, .event-poster';
+    const LB_LINKS = 'a.gallery-link, a.event-poster';
     $$(LB_LINKS).forEach((link) => {
       link.addEventListener('click', (e) => {
         e.preventDefault();

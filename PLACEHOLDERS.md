@@ -12,16 +12,19 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 - [x] **Instagram**: `@engelsberlin`
 
 ## Content
-- [ ] **About story** (optional): text now uses 1987 and "Café Restaurant Bar". Add owners' names or history if you like
+- [x] **About text**: "Kaffee, Brunch & Events" (from the café, Oct 2026)
 - [x] **Founding year**: 1987 (about text, facts, stamp, JSON-LD `foundingDate`)
 - [ ] **Menu**: `script.js` → `CONFIG.menu` (all items, descriptions, prices, diet tags). Then delete the `placeholder-note` line in the menu section
 - [ ] **Allergen info**: confirm "Oat or soy milk at no extra charge" and the allergen line
 - [x] **Reviews**: shows the Google rating (4.4 from 865, as of Oct 2026) and the most-mentioned topics. Update the numbers now and then. To show actual quotes, get the reviewers' OK first (template is commented out in the reviews section)
 - [ ] **Events**: Blue Moonday Jazz (Mon 20:00–23:30), Check la Lage improv (2nd Thu, 20:00, dates through 13.5.2027) and Weekend Warmup (Fri 18–22), taken from the posters. Check they're still running and that it's OK to name Charlotte Joerges. Update the improv dates in `index.html` and `CONFIG.specialDays` when the next season is announced. **The 22:30 show end is a guess**
 - [ ] **Public transport** (verify): U8 Boddinstraße / Leinestraße, S+U Hermannstraße, walking times, **bus line** `[Linie / line]`
-- [ ] **Accessibility**: step-free entrance? prams? dogs? Wi-Fi? (each marked `[prüfen]`/`[check]`)
+- [x] **Good to know / accessibility**: one step with a ramp, cellar events not wheelchair accessible, prams, dogs, self-service with table service at weekend brunch, outdoor seating, Wi-Fi
 - [x] **Payment**: cash and card. Optionally add which cards / Apple Pay
 - [ ] **Bike racks** claim in the transport card
+
+- [ ] **Jam Session**: last Thursday of the month, 20:00 ✔. Still open: end time (badge assumes open until 22:30, `CONFIG.recurring` in `script.js`) and a poster if there is one
+- [ ] **Private events** (optional): capacity, which rooms (café / cellar), catering, prices
 
 ## Photos (`images/`)
 - [x] Logo: traced to crisp SVGs (`logo-engels.svg` header, `logo-engels-full*.svg` footer/Google) and a matching favicon. If you have the original vector logo (SVG/AI/EPS), swap it in for a perfect result
