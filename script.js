@@ -26,7 +26,7 @@ const CONFIG = {
   },
 
   rangeLabels: {
-    jazz: { de: 'Jazz Session', en: 'Jazz session' }
+    jazz: { de: 'Blue Moonday Jazz Session', en: 'Blue Moonday Jazz Session' }
   },
 
   /* Exceptions for specific dates (YYYY-MM-DD). [] = closed. */
@@ -323,8 +323,9 @@ const STRINGS = {
       const ranges = rangesFor(d);
       const isToday = i === (todayIdx + 6) % 7;
       const hours = ranges.length
-        ? ranges.map(([o, c, label]) => `${fmtTime(o)}–${fmtTime(c)}` +
-            (label ? ` <span class="range-label">${CONFIG.rangeLabels[label][lang]}</span>` : '')).join('<br>')
+        ? ranges.map(([o, c, label]) =>
+            (label ? `<span class="range-label">${CONFIG.rangeLabels[label][lang]}</span> ` : '') +
+            `${fmtTime(o)}–${fmtTime(c)}`).join('<br>')
         : `<span class="closed">${t('closed')}</span>`;
       rows.push(
         `<tr${isToday ? ' class="is-today" aria-current="date"' : ''}>` +
@@ -455,6 +456,19 @@ const STRINGS = {
       iframe.referrerPolicy = 'no-referrer-when-downgrade';
       iframe.allowFullscreen = true;
       mapBox.replaceChildren(iframe);
+      iframe.focus();
+    });
+  }
+
+  /* ---------- Lightspeed booking: load only after consent click ---------- */
+  const reserveBox = $('[data-reserve]');
+  if (reserveBox) {
+    $('[data-reserve-load]', reserveBox).addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = reserveBox.dataset.src;
+      iframe.title = lang === 'de' ? 'Online-Reservierung Café Engels' : 'Online reservation Café Engels';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      reserveBox.replaceChildren(iframe);
       iframe.focus();
     });
   }

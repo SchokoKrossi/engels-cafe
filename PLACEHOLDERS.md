@@ -38,5 +38,5 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 - [ ] **Fonts**: optionally self-host (see README, GDPR)
 
 ## Legal (required in Germany)
-- [ ] **Impressum** (`impressum.html`): owner name / company + legal form, representative, register entry and USt-IdNr. if any, person responsible under § 18 MStV
-- [ ] **Datenschutz** (`datenschutz.html`): owner name, Lightspeed contract partner, check whether the Lightspeed widget sets cookies. Have it checked
+- [x] **Impressum**: GbR, Gesellschafter, USt-IdNr., Verantwortliche nach § 18 MStV filled in
+- [x] **Datenschutz**: filled in (Lightspeed Netherlands B.V., K-Series). Have both legal pages checked before the official launch
