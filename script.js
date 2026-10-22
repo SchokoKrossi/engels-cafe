@@ -1,29 +1,32 @@
 /* =========================================================
    Café Engels – script.js
    ---------------------------------------------------------
-   EDIT HERE: opening hours, menu and form settings.
+   EDIT HERE: opening hours and menu.
    Everything else further down is site logic.
    ========================================================= */
 
 const CONFIG = {
   timeZone: 'Europe/Berlin',
 
-  /* Opening hours. [hours] Please check against your real hours.
-     "Ab 10 Uhr, Mo–So" comes from the chalkboard outside; Monday and
-     Friday closing times come from the jazz / Weekend Warmup posters.
-     The 19:00 closing on other days is still a guess.
+  /* Opening hours (from the café, Oct 2026).
      - One or more [open, close] ranges per day, in 24h "HH:MM".
+     - Optional third value = a label from rangeLabels, shown in the
+       hours table and in the "open now" badge (e.g. the jazz session).
      - Empty list [] = closed all day.
      - Close past midnight is fine, e.g. ['18:00', '01:00'].
      Keep the JSON-LD block in index.html in sync! */
   hours: {
-    mon: [['10:00', '23:30']],
-    tue: [['10:00', '19:00']],
-    wed: [['10:00', '19:00']],
+    mon: [['10:00', '20:00'], ['20:00', '23:30', 'jazz']],
+    tue: [['11:00', '17:00']],
+    wed: [],
     thu: [['10:00', '19:00']],
     fri: [['10:00', '22:00']],
     sat: [['10:00', '19:00']],
     sun: [['10:00', '19:00']]
+  },
+
+  rangeLabels: {
+    jazz: { de: 'Jazz Session', en: 'Jazz session' }
   },
 
   /* Exceptions for specific dates (YYYY-MM-DD). [] = closed. */
@@ -55,15 +58,6 @@ const CONFIG = {
 
   /* How many minutes before closing to show "closing soon" */
   closingSoonMinutes: 30,
-
-  /* Reservation form backend. [form-backend]
-     mode: 'demo'      – validates and shows success, sends nothing (default)
-           'formspree' – set endpoint to 'https://formspree.io/f/XXXXXXX'
-           'netlify'   – deploy on Netlify; form is detected automatically */
-  form: {
-    mode: 'demo',
-    endpoint: ''
-  },
 
   /* Menu. [menu] Sample items – replace with your real menu.
      diet: 'vegan' | 'veg' | 'gf'  (any combination)
@@ -137,18 +131,7 @@ const STRINGS = {
     today: 'Heute',
     dietLabels: { vegan: 'vegan', veg: 'vegetarisch', gf: 'glutenfrei' },
     menuTabsLabel: 'Kategorien der Speisekarte',
-    errors: {
-      summary: 'Bitte prüfe die markierten Felder.',
-      name: 'Wie heißt du?',
-      emailMissing: 'Wir brauchen deine E-Mail, um zu antworten.',
-      emailInvalid: 'Diese E-Mail-Adresse sieht nicht ganz richtig aus.',
-      date: 'Bitte wähle ein Datum.',
-      datePast: 'Das Datum liegt in der Vergangenheit.',
-      guests: 'Bitte 1 bis 20 Personen angeben.',
-      message: 'Maximal 1000 Zeichen, bitte.',
-      send: 'Das Senden hat nicht geklappt. Bitte versuch es nochmal oder ruf uns an.'
-    },
-    sending: 'Wird gesendet …'
+    copied: 'Kopiert!'
   },
   en: {
     openNow: 'Open now',
@@ -162,18 +145,7 @@ const STRINGS = {
     today: 'Today',
     dietLabels: { vegan: 'vegan', veg: 'vegetarian', gf: 'gluten-free' },
     menuTabsLabel: 'Menu categories',
-    errors: {
-      summary: 'Please check the highlighted fields.',
-      name: "What's your name?",
-      emailMissing: 'We need your email to reply.',
-      emailInvalid: "That email address doesn't look quite right.",
-      date: 'Please pick a date.',
-      datePast: 'That date is in the past.',
-      guests: 'Please enter 1 to 20 guests.',
-      message: '1000 characters max, please.',
-      send: "Sending didn't work. Please try again or give us a call."
-    },
-    sending: 'Sending …'
+    copied: 'Copied!'
   }
 };
 
@@ -221,7 +193,6 @@ const STRINGS = {
     renderMenu();
     renderHours();
     updateStatus();
-    clearFormErrors();
   }
 
   $$('[data-set-lang]').forEach((btn) => {
@@ -289,10 +260,15 @@ const STRINGS = {
     const { date, minutes } = berlinNow();
 
     // Open from today's ranges?
-    for (const [o, c] of rangesFor(date)) {
+    const today = rangesFor(date);
+    for (const [o, c, label] of today) {
       const start = toMin(o); let end = toMin(c);
       if (end <= start) end += 1440; // past midnight
-      if (minutes >= start && minutes < end) return { open: true, closes: c, minsLeft: end - minutes };
+      if (minutes >= start && minutes < end) {
+        // Another range starts right at closing time (e.g. café → jazz): don't say "closing soon"
+        const continues = today.some(([o2]) => toMin(o2) === end);
+        return { open: true, closes: c, minsLeft: end - minutes, label, continues };
+      }
     }
     // Still open from yesterday's late range?
     for (const [o, c] of rangesFor(addDays(date, -1))) {
@@ -316,8 +292,9 @@ const STRINGS = {
     const s = getStatus();
     let main, detail;
     if (s.open) {
-      main = t('openNow');
-      detail = fill(t(s.minsLeft <= CONFIG.closingSoonMinutes ? 'closingSoon' : 'until'), { t: fmtTime(s.closes) });
+      main = s.label ? CONFIG.rangeLabels[s.label][lang] : t('openNow');
+      const soon = s.minsLeft <= CONFIG.closingSoonMinutes && !s.continues;
+      detail = fill(t(soon ? 'closingSoon' : 'until'), { t: fmtTime(s.closes) });
     } else {
       main = t('closedNow');
       if (s.opens) {
@@ -346,7 +323,8 @@ const STRINGS = {
       const ranges = rangesFor(d);
       const isToday = i === (todayIdx + 6) % 7;
       const hours = ranges.length
-        ? ranges.map(([o, c]) => `${fmtTime(o)}–${fmtTime(c)}`).join(', ')
+        ? ranges.map(([o, c, label]) => `${fmtTime(o)}–${fmtTime(c)}` +
+            (label ? ` <span class="range-label">${CONFIG.rangeLabels[label][lang]}</span>` : '')).join('<br>')
         : `<span class="closed">${t('closed')}</span>`;
       rows.push(
         `<tr${isToday ? ' class="is-today" aria-current="date"' : ''}>` +
@@ -481,117 +459,29 @@ const STRINGS = {
     });
   }
 
-  /* ---------- Reservation form ---------- */
-  const form = $('[data-reserve-form]');
-  const success = $('[data-form-success]');
-  const summary = $('[data-form-summary]');
+  /* ---------- Contact pop-ups (private events) ---------- */
+  let dialogOpener = null;
+  $$('[data-dialog-open]').forEach((btn) => {
+    const dlg = document.getElementById(btn.dataset.dialogOpen);
+    if (!dlg || typeof dlg.showModal !== 'function') return;
+    btn.addEventListener('click', () => { dialogOpener = btn; dlg.showModal(); });
+  });
+  $$('.contact-dialog').forEach((dlg) => {
+    $('[data-dialog-close]', dlg).addEventListener('click', () => dlg.close());
+    // Click on the backdrop closes
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+    dlg.addEventListener('close', () => { if (dialogOpener) dialogOpener.focus(); });
+  });
 
-  function setError(input, msg) {
-    const err = document.getElementById(`${input.id}-err`);
-    if (msg) { input.setAttribute('aria-invalid', 'true'); err.textContent = msg; }
-    else { input.removeAttribute('aria-invalid'); err.textContent = ''; }
-  }
-
-  function clearFormErrors() {
-    if (!form) return;
-    $$('input, textarea', form).forEach((el) => { if (el.id) setError(el, ''); });
-    summary.hidden = true;
-  }
-
-  function todayIso() { return isoDate(berlinNow().date); }
-
-  function validateField(el) {
-    const E = t('errors');
-    const v = el.value.trim();
-    switch (el.name) {
-      case 'name': return v ? '' : E.name;
-      case 'email':
-        if (!v) return E.emailMissing;
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : E.emailInvalid;
-      case 'date':
-        if (!v) return E.date;
-        return v < todayIso() ? E.datePast : '';
-      case 'guests': {
-        const n = Number(v);
-        return Number.isInteger(n) && n >= 1 && n <= 20 ? '' : E.guests;
-      }
-      case 'message': return v.length > 1000 ? E.message : '';
-      default: return '';
-    }
-  }
-
-  async function submitForm(data) {
-    const { mode, endpoint } = CONFIG.form;
-    if (mode === 'formspree' && endpoint) {
-      const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error('Formspree error');
-    } else if (mode === 'netlify') {
-      const res = await fetch('/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(data).toString()
-      });
-      if (!res.ok) throw new Error('Netlify error');
-    } else {
-      // Demo mode: nothing is sent anywhere
-      await new Promise((r) => setTimeout(r, 500));
-    }
-  }
-
-  if (form) {
-    const dateInput = $('#f-date', form);
-    dateInput.min = todayIso();
-
-    // Validate a field on blur, and re-validate as the user fixes it
-    $$('input[id], textarea[id]', form).forEach((el) => {
-      el.addEventListener('blur', () => { if (el.value || el.hasAttribute('aria-invalid')) setError(el, validateField(el)); });
-      el.addEventListener('input', () => { if (el.hasAttribute('aria-invalid')) setError(el, validateField(el)); });
+  // "Copy" buttons: copy the value and briefly confirm
+  $$('[data-copy]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(btn.dataset.copy); } catch (e) { return; }
+      const html = btn.innerHTML;
+      btn.textContent = t('copied');
+      setTimeout(() => { btn.innerHTML = html; }, 1800);
     });
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      if (form.elements['bot-field'].value) return; // honeypot
-
-      let firstInvalid = null;
-      $$('input[id], textarea[id]', form).forEach((el) => {
-        const msg = validateField(el);
-        setError(el, msg);
-        if (msg && !firstInvalid) firstInvalid = el;
-      });
-      if (firstInvalid) {
-        summary.textContent = t('errors').summary;
-        summary.hidden = false;
-        firstInvalid.focus();
-        return;
-      }
-      summary.hidden = true;
-
-      const btn = $('button[type="submit"]', form);
-      const btnHtml = btn.innerHTML;
-      btn.disabled = true;
-      btn.textContent = t('sending');
-      try {
-        await submitForm(new FormData(form));
-        form.hidden = true;
-        success.hidden = false;
-        success.focus();
-      } catch (err) {
-        summary.textContent = t('errors').send;
-        summary.hidden = false;
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = btnHtml;
-      }
-    });
-
-    $('[data-form-reset]').addEventListener('click', () => {
-      form.reset();
-      clearFormErrors();
-      success.hidden = true;
-      form.hidden = false;
-      $('#f-name', form).focus();
-    });
-  }
+  });
 
   /* ---------- Fade-in on scroll ---------- */
   const reveals = $$('.reveal');

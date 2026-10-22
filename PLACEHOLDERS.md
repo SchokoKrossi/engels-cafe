@@ -5,25 +5,23 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 ## Business facts
 - [x] **Address**: `Herrfurthstraße 21, 12049 Berlin` (from the event posters and the street sign in the exterior photo). Already updated everywhere
 - [x] **Phone**: 030 279 761 07 (from Google Maps)
-- [ ] **Email**: `hallo@cafe-engels.example`. In `index.html`: contact list, JSON-LD `email`; `impressum.html`, `datenschutz.html`
-- [ ] **Opening hours** (partly verified): opens 10:00 daily (chalkboard outside). Mon until 23:30 and Fri until 22:00 come from the event posters. **The 19:00 closing on other days is a guess.** Change it in `script.js` → `CONFIG.hours`, **and** JSON-LD `openingHoursSpecification` and the no-JS fallback table in `index.html`
+- [x] **Email**: info@engelsberlin.de (general), events@engelsberlin.de (private events pop-up)
+- [x] **Opening hours** (from the café, Oct 2026): Mon 10–20 (+ jazz 20–23:30), Tue 11–17, Wed closed. Thu/Sat/Sun 10–19 and Fri 10–22 match Google Maps
 - [ ] **Holiday hours**: `script.js` → `CONFIG.specialDays` (samples for Christmas/New Year)
 - [ ] **Price range**: JSON-LD `priceRange` (`€`)
 - [x] **Instagram**: `@engelsberlin`
 
 ## Content
 - [x] **About text**: "Kaffee, Brunch & Events" (from the café, Oct 2026)
-- [x] **Founding year**: 1987 (about text, facts, stamp, JSON-LD `foundingDate`)
-- [ ] **Menu**: `script.js` → `CONFIG.menu` (all items, descriptions, prices, diet tags). Then delete the `placeholder-note` line in the menu section
+- [x] **Founding year**: removed from the site on request
+- [ ] **Menu**: hidden for now (`hidden` on the menu section). To show it: fill `CONFIG.menu` with the real menu, remove `hidden`, point nav + hero button back to `#menu`
 - [ ] **Allergen info**: confirm "Oat or soy milk at no extra charge" and the allergen line
 - [x] **Reviews**: shows the Google rating (4.4 from 865, as of Oct 2026) and the most-mentioned topics. Update the numbers now and then. To show actual quotes, get the reviewers' OK first (template is commented out in the reviews section)
 - [ ] **Events**: Blue Moonday Jazz (Mon 20:00–23:30), Check la Lage improv (2nd Thu, 20:00, dates through 13.5.2027) and Weekend Warmup (Fri 18–22), taken from the posters. Check they're still running and that it's OK to name Charlotte Joerges. Update the improv dates in `index.html` and `CONFIG.specialDays` when the next season is announced. **The 22:30 show end is a guess**
-- [ ] **Public transport** (verify): U8 Boddinstraße / Leinestraße, S+U Hermannstraße, walking times, **bus line** `[Linie / line]`
 - [x] **Good to know / accessibility**: one step with a ramp, cellar events not wheelchair accessible, prams, dogs, self-service with table service at weekend brunch, outdoor seating, Wi-Fi
 - [x] **Payment**: cash and card. Optionally add which cards / Apple Pay
-- [ ] **Bike racks** claim in the transport card
 
-- [ ] **Jam Session**: last Thursday of the month, 20:00 ✔. Still open: end time (badge assumes open until 22:30, `CONFIG.recurring` in `script.js`) and a poster if there is one
+- [ ] **Jam Session**: last Thursday, 20:00, poster "Jam of Hearts" (29.10.). Swap poster + "Nächste:" line for each edition. End time 22:30 is still a guess
 - [ ] **Private events** (optional): capacity, which rooms (café / cellar), catering, prices
 
 ## Photos (`images/`)
@@ -36,9 +34,9 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 
 ## Technical
 - [ ] **Domain**: the café already has **engelsberlin.de**. If this site replaces it, replace `https://cafe-engels.example` in `index.html` (canonical, hreflang, og:url, og:image, JSON-LD url/image/menu), `robots.txt`, `sitemap.xml`
-- [ ] **Form backend**: `script.js` → `CONFIG.form` (Formspree endpoint or `mode: 'netlify'`)
+- [x] **Reservations**: Lightspeed widget embedded. ⚠️ Lightspeed profile shows postcode 10249 instead of 12049, fix it in Lightspeed
 - [ ] **Fonts**: optionally self-host (see README, GDPR)
 
 ## Legal (required in Germany)
-- [ ] **Impressum** (`impressum.html`): owner/company name, legal form, representative, register entry, USt-IdNr., dispute-resolution notice
-- [ ] **Datenschutz** (`datenschutz.html`): responsible party, hosting provider, form provider, fonts, rights section. Have it checked
+- [ ] **Impressum** (`impressum.html`): owner name / company + legal form, representative, register entry and USt-IdNr. if any, person responsible under § 18 MStV
+- [ ] **Datenschutz** (`datenschutz.html`): owner name, Lightspeed contract partner, check whether the Lightspeed widget sets cookies. Have it checked
