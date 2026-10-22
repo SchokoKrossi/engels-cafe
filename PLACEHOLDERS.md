@@ -35,7 +35,7 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 ## Technical
 - [ ] **Domain**: the café already has **engelsberlin.de**. If this site replaces it, replace `https://cafe-engels.example` in `index.html` (canonical, hreflang, og:url, og:image, JSON-LD url/image/menu), `robots.txt`, `sitemap.xml`
 - [x] **Reservations**: Lightspeed widget embedded. ⚠️ Lightspeed profile shows postcode 10249 instead of 12049, fix it in Lightspeed
-- [ ] **Fonts**: optionally self-host (see README, GDPR)
+- [x] **Fonts**: self-hosted in `fonts/` (no requests to Google)
 
 ## Legal (required in Germany)
 - [x] **Impressum**: GbR, Gesellschafter, USt-IdNr., Verantwortliche nach § 18 MStV filled in

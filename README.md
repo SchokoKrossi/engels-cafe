@@ -104,12 +104,8 @@ The `.claude/` folder is only for local previewing and can be deleted.
 
 ## Privacy (GDPR) notes
 - No cookies and no analytics. The language choice is stored only in the visitor's browser (localStorage).
-- Google Maps loads only after a click on "Karte laden".
-- **Google Fonts:** as requested, fonts load from Google's servers, which sends visitors' IP addresses to Google. German courts have issued warnings over this (LG München, 2022). For a fully clean setup, self-host the fonts:
-  1. Download Fraunces and DM Sans (woff2) via [gwfh.mranftl.com](https://gwfh.mranftl.com/fonts).
-  2. Put them in a `fonts/` folder and paste the generated `@font-face` CSS at the top of `styles.css`.
-  3. Delete the three `fonts.googleapis.com` / `fonts.gstatic.com` lines from the `<head>` of all three HTML files.
-  4. Remove section 5 from `datenschutz.html`.
+- Google Maps and the Lightspeed booking form load only after a click.
+- **Fonts:** Fraunces and DM Sans are self-hosted in `fonts/` (`@font-face` at the top of `styles.css`), so no visitor data goes to Google. Both are under the SIL Open Font License.
 - Impressum and Datenschutz are **templates only**. Complete them with a generator (e-recht24.de, datenschutz-generator.de) or a lawyer.
 
 ## Accessibility and performance (built in)
