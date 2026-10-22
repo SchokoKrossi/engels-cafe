@@ -69,11 +69,10 @@
     "image": "https://cafe-engels.example/images/og-image.jpg",
     "description": "Café, Bar und Eventlocation im Schillerkiez, Berlin-Neukölln: Kaffee, Kuchen, Bagels, Brunch von Donnerstag bis Sonntag, abends Jazz, DJ-Sets und Improtheater.",
     "telephone": "+49 30 27976107",
-    "email": "hallo@cafe-engels.example",
+    "email": "info@engelsberlin.de",
     "priceRange": "€",
-    "servesCuisine": ["Kaffee", "Kuchen", "Frühstück"],
-    "acceptsReservations": "True",
-    "menu": "https://cafe-engels.example/#menu",
+    "servesCuisine": ["Kaffee", "Kuchen", "Brunch"],
+    "acceptsReservations": "https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Herrfurthstraße 21",
@@ -93,11 +92,17 @@
         "@type": "OpeningHoursSpecification",
         "dayOfWeek": "Monday",
         "opens": "10:00",
-        "closes": "23:30"
+        "closes": "20:00"
       },
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Saturday", "Sunday"],
+        "dayOfWeek": "Tuesday",
+        "opens": "11:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Thursday", "Saturday", "Sunday"],
         "opens": "10:00",
         "closes": "19:00"
       },
@@ -109,7 +114,6 @@
       }
     ],
     "paymentAccepted": "Cash, Card",
-    "foundingDate": "1987",
     "logo": "https://cafe-engels.example/images/logo-engels-full.svg",
     "currenciesAccepted": "EUR",
     "sameAs": ["https://www.instagram.com/engelsberlin/"]
@@ -131,7 +135,7 @@
 
       <nav class="main-nav" id="main-nav" aria-label="Hauptnavigation" data-aria-en="Main navigation">
         <ul>
-          <li><a href="#menu"><span data-lang="de">Karte</span><span data-lang="en">Menu</span></a></li>
+          <li><a href="#events"><span data-lang="de">Events</span><span data-lang="en">Events</span></a></li>
           <li><a href="#about"><span data-lang="de">Über uns</span><span data-lang="en">About</span></a></li>
           <li><a href="#gallery"><span data-lang="de">Galerie</span><span data-lang="en">Gallery</span></a></li>
           <li><a href="#private"><span data-lang="de">Feiern</span><span data-lang="en">Private events</span></a></li>
@@ -189,8 +193,8 @@
           <span data-lang="en">Your living room in the Schillerkiez. Two minutes from Tempelhofer Feld.</span>
         </p>
         <div class="hero-ctas">
-          <a class="btn btn-primary" href="#menu">
-            <span data-lang="de">Speisekarte</span><span data-lang="en">See the menu</span>
+          <a class="btn btn-primary" href="#reserve">
+            <span data-lang="de">Tisch reservieren</span><span data-lang="en">Book a table</span>
           </a>
           <a class="btn btn-ghost" href="#visit">
             <span data-lang="de">So finden Sie uns</span><span data-lang="en">Find us</span>
@@ -221,7 +225,6 @@
             <span data-lang="en">Every nice person is welcome here, whether with a laptop, a pram, a dog or just yourself. A living room for the Kiez.</span>
           </p>
           <ul class="about-facts">
-            <li><strong>1987</strong> <span data-lang="de">im Kiez</span><span data-lang="en">in the Kiez</span></li>
             <li><strong>Do–So</strong> <span data-lang="de">Brunch</span><span data-lang="en">brunch (Thu–Sun)</span></li>
             <li><strong>2 min</strong> <span data-lang="de">zum Tempelhofer Feld</span><span data-lang="en">to Tempelhofer Feld</span></li>
           </ul>
@@ -230,13 +233,14 @@
           <img src="images/shopfront-window-engels.webp" width="936" height="936" loading="lazy" decoding="async"
                alt="Das große Schaufenster mit dem Schriftzug ENGELS, Lichterkette und warm beleuchteter Kuchenvitrine dahinter"
                data-alt-en="The big shop window with the ENGELS lettering, string lights and the warmly lit cake display behind it">
-          <span class="stamp" aria-hidden="true">Est.<br>1987</span>
         </figure>
       </div>
     </section>
 
     <!-- ============ MENU ============ -->
-    <section class="section section-alt" id="menu" aria-labelledby="menu-title">
+    <!-- Speisekarte vorübergehend ausgeblendet. Zum Einblenden "hidden" entfernen
+         und Nav-Link + Hero-Button wieder auf #menu zeigen lassen. -->
+    <section hidden class="section section-alt" id="menu" aria-labelledby="menu-title">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Speisekarte</span><span data-lang="en">Menu</span></p>
@@ -271,7 +275,7 @@
     </section>
 
     <!-- ============ GALLERY ============ -->
-    <section class="section" id="gallery" aria-labelledby="gallery-title">
+    <section class="section section-alt" id="gallery" aria-labelledby="gallery-title">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Galerie</span><span data-lang="en">Gallery</span></p>
@@ -372,7 +376,7 @@
     </section>
 
     <!-- ============ REVIEWS ============ -->
-    <section class="section section-alt" id="reviews" aria-labelledby="reviews-title">
+    <section class="section" id="reviews" aria-labelledby="reviews-title">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Stimmen</span><span data-lang="en">Reviews</span></p>
@@ -395,15 +399,15 @@
         </div>
 
         <p class="center muted reviews-intro reveal">
-          <span data-lang="de">Worüber unsere Gäste am häufigsten schreiben:</span>
-          <span data-lang="en">What our guests write about most:</span>
+          <span data-lang="de">Worüber unsere Gäste schreiben:</span>
+          <span data-lang="en">What our guests write about:</span>
         </p>
         <div class="reviews">
           <div class="review-card topic-card reveal">
-            <p class="topic-icon" aria-hidden="true">🍰</p>
-            <h3><span data-lang="de">Kuchen</span><span data-lang="en">Cake</span></h3>
-            <p class="topic-count"><span data-lang="de">in 46 Bewertungen erwähnt</span><span data-lang="en">mentioned in 46 reviews</span></p>
-            <p><span data-lang="de">Hausgemacht und meistens schneller weg, als uns lieb ist.</span><span data-lang="en">Homemade, and usually gone faster than we'd like.</span></p>
+            <p class="topic-icon" aria-hidden="true">🍳</p>
+            <h3>Brunch</h3>
+            <p class="topic-count"><span data-lang="de">Donnerstag bis Sonntag</span><span data-lang="en">Thursday to Sunday</span></p>
+            <p><span data-lang="de">Unser legendärer Brunch, am Wochenende mit Tischservice.</span><span data-lang="en">Our legendary brunch, with table service at weekends.</span></p>
           </div>
           <div class="review-card topic-card reveal">
             <p class="topic-icon" aria-hidden="true">🎷</p>
@@ -435,7 +439,7 @@
     </section>
 
     <!-- ============ EVENTS ============ -->
-    <section class="section" id="events" aria-labelledby="events-title">
+    <section class="section section-alt" id="events" aria-labelledby="events-title">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Was los ist</span><span data-lang="en">What's on</span></p>
@@ -484,16 +488,18 @@
               <p><span data-lang="de">DJ-Sets, Food-Pop-ups und wechselnde Specials. Jeder Spritz 5 €. Das Wochenende fängt hier an.</span><span data-lang="en">DJ sets, food pop-ups and changing specials. Every spritz €5. The weekend starts here.</span></p>
             </div>
           </article>
-          <!-- Jam Session: last Thursday of the month, 20:00. When there's a poster, replace the
-               <div class="event-poster event-poster-empty"> with an <a class="event-poster"> + <img> like the cards above. -->
+          <!-- Jam Session: last Thursday of the month, 20:00. Swap the poster for each edition. -->
           <article class="event-card event-card-poster reveal">
-            <div class="event-poster event-poster-empty" aria-hidden="true">
-              <span>Jam<br>Session</span>
-            </div>
+            <a class="event-poster" href="images/poster-jam-of-hearts.webp">
+              <img src="images/poster-jam-of-hearts.webp" width="616" height="780" loading="lazy" decoding="async"
+                   alt="Plakat Jam of Hearts, Halloween Special: Gitarrist mit Totenkopf-Schminke an einer E-Gitarre, 29.10.2026, 20 Uhr, Café Engels"
+                   data-alt-en="Jam of Hearts Halloween Special poster: guitarist with skull make-up playing an electric guitar, 29 Oct 2026, 8 pm, Café Engels">
+            </a>
             <div class="event-body">
               <p class="event-when"><span data-lang="de">Jeden letzten Donnerstag · 20 Uhr</span><span data-lang="en">Last Thursday of the month · 8 pm</span></p>
               <h3>Jam Session</h3>
               <p><span data-lang="de">Offene Bühne für alle, die Musik machen: Instrument mitbringen und einsteigen.</span><span data-lang="en">An open stage for anyone who plays: bring your instrument and join in.</span></p>
+              <p class="event-dates small"><span data-lang="de">Nächste: <strong>Jam of Hearts – Halloween Special</strong>, 29.10.</span><span data-lang="en">Next: <strong>Jam of Hearts – Halloween Special</strong>, 29 Oct</span></p>
             </div>
           </article>
         </div>
@@ -505,7 +511,7 @@
     </section>
 
     <!-- ============ PRIVATE EVENTS ============ -->
-    <section class="section section-alt" id="private" aria-labelledby="private-title">
+    <section class="section" id="private" aria-labelledby="private-title">
       <div class="container about-grid private-grid">
         <figure class="about-photo reveal">
           <img src="images/dining-room-paintings.webp" width="521" height="782" loading="lazy" decoding="async"
@@ -524,15 +530,19 @@
           </p>
           <!-- [private-events] Optional: capacity, which rooms (café / cellar), catering, prices -->
           <div class="visit-buttons">
-            <a class="btn btn-primary" href="#reserve"><span data-lang="de">Anfrage senden</span><span data-lang="en">Send an enquiry</span></a>
-            <a class="btn btn-outline" href="tel:+493027976107"><span data-lang="de">Anrufen</span><span data-lang="en">Call us</span></a>
+            <button type="button" class="btn btn-primary" data-dialog-open="dlg-events-mail" aria-haspopup="dialog">
+              <span data-lang="de">E-Mail schreiben</span><span data-lang="en">Send an email</span>
+            </button>
+            <button type="button" class="btn btn-outline" data-dialog-open="dlg-events-phone" aria-haspopup="dialog">
+              <span data-lang="de">Anrufen</span><span data-lang="en">Call us</span>
+            </button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ============ VISIT ============ -->
-    <section class="section" id="visit" aria-labelledby="visit-title">
+    <section class="section section-alt" id="visit" aria-labelledby="visit-title">
       <div class="container">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Besuch</span><span data-lang="en">Visit us</span></p>
@@ -549,7 +559,6 @@
               <span class="status-text"></span>
             </p>
 
-            <!-- [address] Please check the address -->
             <address class="visit-address">
               <strong>Café Engels</strong><br>
               Herrfurthstraße 21<br>
@@ -561,7 +570,6 @@
                  href="https://www.google.com/maps/dir/?api=1&amp;destination=Caf%C3%A9%20Engels%2C%20Herrfurthstra%C3%9Fe%2021%2C%2012049%20Berlin">
                 <span data-lang="de">Route planen</span><span data-lang="en">Get directions</span>
               </a>
-              <!-- [phone] -->
               <a class="btn btn-outline" href="tel:+493027976107">
                 <span data-lang="de">Anrufen</span><span data-lang="en">Call</span>
               </a>
@@ -574,7 +582,7 @@
               </div>
               <div>
                 <dt>E-Mail</dt>
-                <dd><a href="mailto:hallo@cafe-engels.example">hallo@cafe-engels.example [email]</a></dd>
+                <dd><a href="mailto:info@engelsberlin.de">info@engelsberlin.de</a></dd>
               </div>
             </dl>
 
@@ -583,8 +591,10 @@
             <table class="hours" data-hours>
               <caption class="sr-only"><span data-lang="de">Öffnungszeiten</span><span data-lang="en">Opening hours</span></caption>
               <tbody>
-                <tr><th scope="row">Mo</th><td>10:00–23:30</td></tr>
-                <tr><th scope="row">Di–Do</th><td>10:00–19:00</td></tr>
+                <tr><th scope="row">Mo</th><td>10:00–20:00<br>20:00–23:30 Jazz Session</td></tr>
+                <tr><th scope="row">Di</th><td>11:00–17:00</td></tr>
+                <tr><th scope="row">Mi</th><td>Geschlossen</td></tr>
+                <tr><th scope="row">Do</th><td>10:00–19:00</td></tr>
                 <tr><th scope="row">Fr</th><td>10:00–22:00</td></tr>
                 <tr><th scope="row">Sa–So</th><td>10:00–19:00</td></tr>
               </tbody>
@@ -622,17 +632,6 @@
         </div>
 
         <div class="info-cards">
-          <!-- [transport] Please check lines and walking times -->
-          <div class="info-card reveal">
-            <h3 class="h4"><span data-lang="de">Mit Bus &amp; Bahn</span><span data-lang="en">By public transport</span></h3>
-            <ul>
-              <li><span class="line line-u">U8</span> Boddinstraße <span class="muted">· <span data-lang="de">ca. 7 Min. zu Fuß</span><span data-lang="en">approx. 7 min walk</span></span></li>
-              <li><span class="line line-u">U8</span> Leinestraße <span class="muted">· <span data-lang="de">ca. 8 Min. zu Fuß</span><span data-lang="en">approx. 8 min walk</span></span></li>
-              <li><span class="line line-s">S</span> <span class="line line-u">U8</span> Hermannstraße <span class="muted">· <span data-lang="de">ca. 10 Min. zu Fuß</span><span data-lang="en">approx. 10 min walk</span></span></li>
-              <li><span class="line line-bus">Bus</span> [Linie / line] [Haltestelle / stop]</li>
-            </ul>
-            <p class="small muted"><span data-lang="de">Mit dem Rad? Bügel direkt vor der Tür.</span><span data-lang="en">By bike? Racks right outside the door.</span></p>
-          </div>
           <div class="info-card reveal">
             <h3 class="h4"><span data-lang="de">Gut zu wissen</span><span data-lang="en">Good to know</span></h3>
             <ul class="check-list">
@@ -657,7 +656,8 @@
     </section>
 
     <!-- ============ RESERVATION ============ -->
-    <section class="section section-alt" id="reserve" aria-labelledby="reserve-title">
+    <!-- Lightspeed booking widget (the café's own reservation system) -->
+    <section class="section" id="reserve" aria-labelledby="reserve-title">
       <div class="container narrow">
         <div class="section-head reveal">
           <p class="eyebrow"><span data-lang="de">Reservieren</span><span data-lang="en">Book a table</span></p>
@@ -666,70 +666,19 @@
             <span data-lang="en">A seat for you (and your crew)</span>
           </h2>
           <p class="section-lead">
-            <span data-lang="de">Für Brunch, Geburtstage oder größere Runden. Wir melden uns innerhalb eines Tages.</span>
-            <span data-lang="en">For brunch, birthdays or bigger groups. We'll get back to you within a day.</span>
+            <span data-lang="de">Datum, Uhrzeit und Personenzahl wählen, fertig. Für private Feiern schreibt uns lieber an <button type="button" class="link-btn" data-dialog-open="dlg-events-mail" aria-haspopup="dialog">events@engelsberlin.de</button>.</span>
+            <span data-lang="en">Pick a date, time and party size, done. For private events, please email <button type="button" class="link-btn" data-dialog-open="dlg-events-mail" aria-haspopup="dialog">events@engelsberlin.de</button> instead.</span>
           </p>
         </div>
-
-        <!-- [form-backend] Connect to Formspree / Netlify Forms: see CONFIG.form in script.js and the README -->
-        <form class="reserve-form reveal" name="reservation" method="POST" novalidate
-              data-netlify="true" netlify-honeypot="bot-field" data-reserve-form>
-          <input type="hidden" name="form-name" value="reservation">
-          <p class="hp" aria-hidden="true">
-            <label>Nicht ausfüllen <input name="bot-field" tabindex="-1" autocomplete="off"></label>
-          </p>
-
-          <div class="form-error-summary" role="alert" data-form-summary hidden></div>
-
-          <div class="form-row">
-            <div class="field">
-              <label for="f-name"><span data-lang="de">Name</span><span data-lang="en">Name</span> <span aria-hidden="true">*</span></label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="f-name-err">
-              <p class="field-error" id="f-name-err"></p>
-            </div>
-            <div class="field">
-              <label for="f-email">E-Mail <span aria-hidden="true">*</span></label>
-              <input id="f-email" name="email" type="email" autocomplete="email" required aria-describedby="f-email-err">
-              <p class="field-error" id="f-email-err"></p>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="f-date"><span data-lang="de">Datum</span><span data-lang="en">Date</span> <span aria-hidden="true">*</span></label>
-              <input id="f-date" name="date" type="date" required aria-describedby="f-date-err">
-              <p class="field-error" id="f-date-err"></p>
-            </div>
-            <div class="field">
-              <label for="f-guests"><span data-lang="de">Personen</span><span data-lang="en">Guests</span> <span aria-hidden="true">*</span></label>
-              <input id="f-guests" name="guests" type="number" min="1" max="20" inputmode="numeric" value="2" required aria-describedby="f-guests-err">
-              <p class="field-error" id="f-guests-err"></p>
-            </div>
-          </div>
-          <div class="field">
-            <label for="f-message"><span data-lang="de">Nachricht (optional)</span><span data-lang="en">Message (optional)</span></label>
-            <textarea id="f-message" name="message" rows="4" maxlength="1000" aria-describedby="f-message-err"></textarea>
-            <p class="field-error" id="f-message-err"></p>
-          </div>
-          <p class="small muted">
-            <span data-lang="de">Mit * markierte Felder sind Pflicht. Wir nutzen deine Daten nur, um deine Anfrage zu beantworten. <a href="datenschutz.html">Datenschutz</a></span>
-            <span data-lang="en">Fields marked * are required. We only use your data to answer your request. <a href="datenschutz.html">Privacy policy</a></span>
-          </p>
-          <button class="btn btn-primary" type="submit">
-            <span data-lang="de">Anfrage senden</span><span data-lang="en">Send request</span>
-          </button>
-        </form>
-
-        <div class="form-success" data-form-success tabindex="-1" hidden>
-          <p class="success-icon" aria-hidden="true">☕</p>
-          <h3><span data-lang="de">Danke, ist angekommen!</span><span data-lang="en">Thanks, got it!</span></h3>
-          <p>
-            <span data-lang="de">Wir melden uns per E-Mail, meistens noch am selben Tag. Bis bald in der Herrfurthstraße.</span>
-            <span data-lang="en">We'll reply by email, usually the same day. See you on Herrfurthstraße.</span>
-          </p>
-          <button type="button" class="btn btn-outline" data-form-reset>
-            <span data-lang="de">Neue Anfrage</span><span data-lang="en">New request</span>
-          </button>
+        <div class="reserve-embed reveal">
+          <iframe src="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation"
+                  title="Online-Reservierung Café Engels / Online reservation" loading="lazy"
+                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
+        <p class="small muted center reserve-note">
+          <span data-lang="de">Die Reservierung läuft über unser Buchungssystem Lightspeed (<a href="datenschutz.html">Datenschutz</a>). Klappt etwas nicht? <a href="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation" target="_blank" rel="noopener">In neuem Tab öffnen</a> oder ruf uns an: <a href="tel:+493027976107">030 279 761 07</a>.</span>
+          <span data-lang="en">Reservations run through our booking system, Lightspeed (<a href="datenschutz.html">privacy policy</a>). Something not working? <a href="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation" target="_blank" rel="noopener">Open in a new tab</a> or call us: <a href="tel:+493027976107">+49 30 27976107</a>.</span>
+        </p>
       </div>
     </section>
   </main>
@@ -759,6 +708,31 @@
       <p><a href="#top"><span data-lang="de">Nach oben ↑</span><span data-lang="en">Back to top ↑</span></a></p>
     </div>
   </footer>
+
+  <!-- ============ CONTACT POP-UPS (private events) ============ -->
+  <dialog class="contact-dialog" id="dlg-events-mail" aria-labelledby="dlg-events-mail-title">
+    <button type="button" class="dialog-close" data-dialog-close aria-label="Schließen" data-aria-en="Close">×</button>
+    <p class="eyebrow"><span data-lang="de">Private Veranstaltungen</span><span data-lang="en">Private events</span></p>
+    <h3 id="dlg-events-mail-title"><span data-lang="de">Schreibt uns</span><span data-lang="en">Drop us a line</span></h3>
+    <p class="muted"><span data-lang="de">Am besten gleich mit Anlass, Wunschdatum und ungefährer Personenzahl.</span><span data-lang="en">Ideally with the occasion, preferred date and rough number of guests.</span></p>
+    <p class="contact-value"><a href="mailto:events@engelsberlin.de?subject=Anfrage%20private%20Veranstaltung">events@engelsberlin.de</a></p>
+    <div class="dialog-actions">
+      <a class="btn btn-primary" href="mailto:events@engelsberlin.de?subject=Anfrage%20private%20Veranstaltung"><span data-lang="de">E-Mail öffnen</span><span data-lang="en">Open email</span></a>
+      <button type="button" class="btn btn-outline" data-copy="events@engelsberlin.de"><span data-lang="de">Adresse kopieren</span><span data-lang="en">Copy address</span></button>
+    </div>
+  </dialog>
+
+  <dialog class="contact-dialog" id="dlg-events-phone" aria-labelledby="dlg-events-phone-title">
+    <button type="button" class="dialog-close" data-dialog-close aria-label="Schließen" data-aria-en="Close">×</button>
+    <p class="eyebrow"><span data-lang="de">Private Veranstaltungen</span><span data-lang="en">Private events</span></p>
+    <h3 id="dlg-events-phone-title"><span data-lang="de">Ruft uns an</span><span data-lang="en">Give us a call</span></h3>
+    <p class="muted"><span data-lang="de">Während der Öffnungszeiten erreicht ihr uns am besten.</span><span data-lang="en">Best reached during opening hours.</span></p>
+    <p class="contact-value"><a href="tel:+493027976107">+49 30 27976107</a></p>
+    <div class="dialog-actions">
+      <a class="btn btn-primary" href="tel:+493027976107"><span data-lang="de">Jetzt anrufen</span><span data-lang="en">Call now</span></a>
+      <button type="button" class="btn btn-outline" data-copy="+49 30 27976107"><span data-lang="de">Nummer kopieren</span><span data-lang="en">Copy number</span></button>
+    </div>
+  </dialog>
 
   <!-- ============ LIGHTBOX ============ -->
   <dialog class="lightbox" data-lightbox aria-label="Bildansicht" data-aria-en="Image viewer">
