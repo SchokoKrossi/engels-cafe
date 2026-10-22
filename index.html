@@ -156,7 +156,7 @@
         <a class="btn btn-primary btn-sm directions-btn" target="_blank" rel="noopener"
            href="https://www.google.com/maps/dir/?api=1&amp;destination=Caf%C3%A9%20Engels%2C%20Herrfurthstra%C3%9Fe%2021%2C%2012049%20Berlin">
           <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
-          <span class="directions-label"><span data-lang="de">Route</span><span data-lang="en">Directions</span></span>
+          <span class="directions-label"><span data-lang="de">Route</span><span data-lang="en">Maps</span></span>
         </a>
 
         <button class="icon-btn nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav"
@@ -385,7 +385,7 @@
             <span data-lang="en">What our guests say</span>
           </h2>
         </div>
-        <!-- Rating and review topics from Google Maps, as of October 2026. Update now and then. -->
+        <!-- Rating and review topics from Google Maps, as of 22 October 2026. Update now and then. -->
         <div class="rating-summary reveal">
           <p class="rating-score">4,4</p>
           <div>
@@ -393,7 +393,7 @@
               <span class="rating-stars-fill" style="width: 88%"></span>
             </div>
             <p class="rating-count">
-              <span data-lang="de">aus 865 Google-Bewertungen</span><span data-lang="en">from 865 Google reviews</span>
+              <span data-lang="de">aus 871 Google-Bewertungen</span><span data-lang="en">from 871 Google reviews</span>
             </p>
           </div>
         </div>
@@ -404,10 +404,11 @@
         </p>
         <div class="reviews">
           <div class="review-card topic-card reveal">
-            <p class="topic-icon" aria-hidden="true">🍳</p>
+            <p class="topic-icon" aria-hidden="true">🥞</p>
             <h3>Brunch</h3>
-            <p class="topic-count"><span data-lang="de">Donnerstag bis Sonntag</span><span data-lang="en">Thursday to Sunday</span></p>
-            <p><span data-lang="de">Unser legendärer Brunch, am Wochenende mit Tischservice.</span><span data-lang="en">Our legendary brunch, with table service at weekends.</span></p>
+            <p class="topic-count"><span data-lang="de">10× erwähnt: Rösti &amp; Eggs Benedict</span><span data-lang="en">10 mentions: rösti &amp; eggs Benedict</span></p>
+            <p><span data-lang="de">Unser legendärer Brunch, Donnerstag bis Sonntag, am Wochenende mit Tischservice.</span><span data-lang="en">Our legendary brunch, Thursday to Sunday, with table service at weekends.</span></p>
+            <a class="btn btn-primary btn-sm topic-cta" href="#reserve"><span data-lang="de">Tisch reservieren</span><span data-lang="en">Book a table</span></a>
           </div>
           <div class="review-card topic-card reveal">
             <p class="topic-icon" aria-hidden="true">🎷</p>
@@ -591,7 +592,7 @@
             <table class="hours" data-hours>
               <caption class="sr-only"><span data-lang="de">Öffnungszeiten</span><span data-lang="en">Opening hours</span></caption>
               <tbody>
-                <tr><th scope="row">Mo</th><td>10:00–20:00<br>20:00–23:30 Jazz Session</td></tr>
+                <tr><th scope="row">Mo</th><td>10:00–20:00<br>Blue Moonday Jazz Session 20:00–23:30</td></tr>
                 <tr><th scope="row">Di</th><td>11:00–17:00</td></tr>
                 <tr><th scope="row">Mi</th><td>Geschlossen</td></tr>
                 <tr><th scope="row">Do</th><td>10:00–19:00</td></tr>
@@ -670,10 +671,19 @@
             <span data-lang="en">Pick a date, time and party size, done. For private events, please email <button type="button" class="link-btn" data-dialog-open="dlg-events-mail" aria-haspopup="dialog">events@engelsberlin.de</button> instead.</span>
           </p>
         </div>
-        <div class="reserve-embed reveal">
-          <iframe src="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation"
-                  title="Online-Reservierung Café Engels / Online reservation" loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        <!-- Loaded only after a click: the widget pulls in Google reCAPTCHA (sets Google cookies) -->
+        <div class="reserve-embed reveal" data-reserve
+             data-src="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation">
+          <div class="map-consent-inner reserve-consent">
+            <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <p>
+              <span data-lang="de">Unser Reservierungssystem wird von Lightspeed geladen. Es nutzt Google reCAPTCHA gegen Spam, dabei werden Daten (z.&nbsp;B. deine IP-Adresse) an Lightspeed und Google übertragen und Google setzt Cookies. <a href="datenschutz.html#reservierung">Datenschutz</a></span>
+              <span data-lang="en">Our booking system is loaded from Lightspeed. It uses Google reCAPTCHA against spam, which sends data such as your IP address to Lightspeed and Google, and Google sets cookies. <a href="datenschutz.html#reservierung">Privacy policy</a></span>
+            </p>
+            <button type="button" class="btn btn-primary" data-reserve-load>
+              <span data-lang="de">Reservierung laden</span><span data-lang="en">Load booking form</span>
+            </button>
+          </div>
         </div>
         <p class="small muted center reserve-note">
           <span data-lang="de">Die Reservierung läuft über unser Buchungssystem Lightspeed (<a href="datenschutz.html">Datenschutz</a>). Klappt etwas nicht? <a href="https://mylightspeed.app/reservation/4fc02ed3-7b68-43d0-8720-7b87f4350c5a/reservation" target="_blank" rel="noopener">In neuem Tab öffnen</a> oder ruf uns an: <a href="tel:+493027976107">030 279 761 07</a>.</span>
