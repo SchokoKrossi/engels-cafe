@@ -33,7 +33,7 @@ Search the project for `[` to find any leftovers. Items marked **(verify)** are 
 - [ ] Higher resolution photos would help. The Instagram screenshots are only about 560px wide, which is fine in the grid but soft in the lightbox
 
 ## Technical
-- [ ] **Domain**: the café already has **engelsberlin.de**. If this site replaces it, replace `https://cafe-engels.example` in `index.html` (canonical, hreflang, og:url, og:image, JSON-LD url/image/menu), `robots.txt`, `sitemap.xml`
+- [x] **Domain**: code uses https://engelsberlin.de. Still to do: DNS at Squarespace, custom domain + Enforce HTTPS in GitHub Pages
 - [x] **Reservations**: Lightspeed widget embedded. ⚠️ Lightspeed profile shows postcode 10249 instead of 12049, fix it in Lightspeed
 - [x] **Fonts**: self-hosted in `fonts/` (no requests to Google)
 

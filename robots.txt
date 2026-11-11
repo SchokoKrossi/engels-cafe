@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cafe-engels.example/sitemap.xml
+Sitemap: https://engelsberlin.de/sitemap.xml

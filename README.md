@@ -98,7 +98,7 @@ Name the provider in `datenschutz.html`.
 
 **GitHub Pages:** push the folder to a GitHub repo → *Settings → Pages* → Source: *Deploy from a branch*, branch `main`, folder `/ (root)`. To use your own domain, add it under *Custom domain*.
 
-**After deploying:** replace `https://cafe-engels.example` with your real domain in `index.html` (canonical, hreflang, Open Graph, JSON-LD), `robots.txt` and `sitemap.xml`. Then submit the sitemap in Google Search Console. Also add the website link to your Google Business profile.
+**After deploying:** the domain `https://engelsberlin.de` is already set in `index.html` (canonical, hreflang, Open Graph, JSON-LD), `robots.txt` and `sitemap.xml`. Then submit the sitemap in Google Search Console. Also add the website link to your Google Business profile.
 
 The `.claude/` folder is only for local previewing and can be deleted.
 
