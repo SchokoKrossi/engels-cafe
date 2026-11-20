@@ -7,3 +7,6 @@ images/originals/
 # OS clutter
 Thumbs.db
 .DS_Store
+
+# Internal checklist (kept locally, not published)
+PLACEHOLDERS.md
