@@ -26,8 +26,16 @@ const CONFIG = {
   },
 
   rangeLabels: {
-    jazz: { de: 'Blue Moonday Jazz Session', en: 'Blue Moonday Jazz Session' }
+    jazz: {
+      de: 'Blue Moonday Jazz Session', en: 'Blue Moonday Jazz Session',
+      // Small line under the day in the hours table ({t} = start time)
+      note: { de: '🎷 Jazz ab {t}', en: '🎷 Jazz from {t}' }
+    }
   },
+
+  /* Days shown as "10:00 – till late" instead of a closing time.
+     The real closing times above still count for Google and the "open now" badge. */
+  tillLate: ['mon', 'fri'],
 
   /* Exceptions for specific dates (YYYY-MM-DD). [] = closed. */
   specialDays: {
@@ -123,6 +131,7 @@ const STRINGS = {
     openNow: 'Jetzt geöffnet',
     closedNow: 'Gerade geschlossen',
     until: 'bis {t} Uhr',
+    tillLate: 'till late',
     closingSoon: 'schließt bald, um {t} Uhr',
     opensToday: 'öffnet heute um {t} Uhr',
     opensTomorrow: 'öffnet morgen um {t} Uhr',
@@ -137,6 +146,7 @@ const STRINGS = {
     openNow: 'Open now',
     closedNow: 'Closed right now',
     until: 'until {t}',
+    tillLate: 'till late',
     closingSoon: 'closing soon, at {t}',
     opensToday: 'opens today at {t}',
     opensTomorrow: 'opens tomorrow at {t}',
@@ -207,6 +217,7 @@ const STRINGS = {
 
   function setNav(open) {
     nav.classList.toggle('is-open', open);
+    onScroll();
     navToggle.setAttribute('aria-expanded', String(open));
     const label = ARIA_NAV[lang][open ? 1 : 0];
     navToggle.setAttribute('aria-label', label);
@@ -222,7 +233,24 @@ const STRINGS = {
     if (nav.classList.contains('is-open') && !header.contains(e.target)) setNav(false);
   });
 
-  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+  // Events dropdown: click/tap toggles, Esc or a click elsewhere closes
+  $$('.has-sub').forEach((item) => {
+    const toggle = $('.nav-sub-toggle', item);
+    const setSub = (open) => { item.classList.toggle('is-open', open); toggle.setAttribute('aria-expanded', String(open)); };
+    toggle.addEventListener('click', () => setSub(!item.classList.contains('is-open')));
+    item.addEventListener('click', (e) => { const a = e.target.closest('.sub-menu a'); if (a) { setSub(false); a.blur(); } });
+    document.addEventListener('click', (e) => { if (!item.contains(e.target)) setSub(false); });
+    item.addEventListener('keydown', (e) => { if (e.key === 'Escape') { setSub(false); toggle.focus(); } });
+  });
+
+  const hero = $('.hero');
+  const onScroll = () => {
+    header.classList.toggle('is-scrolled', window.scrollY > 8);
+    // Overlay header: turns solid when the big logo in the hero slides under it (or while the mobile menu is open)
+    const bigLogo = $('.hero-logo');
+    const past = bigLogo ? bigLogo.getBoundingClientRect().top < header.offsetHeight : true;
+    header.classList.toggle('is-solid', past || nav.classList.contains('is-open'));
+  };
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
@@ -255,6 +283,12 @@ const STRINGS = {
     return CONFIG.hours[day] || [];
   }
 
+  // A normal week day listed in CONFIG.tillLate (special days and recurring evenings keep their times)
+  function isTillLate(date) {
+    const day = DAY_KEYS[date.getUTCDay()];
+    return (CONFIG.tillLate || []).includes(day) && rangesFor(date) === CONFIG.hours[day];
+  }
+
   /* Returns { open: true, closes } or { open: false, nextDayOffset, opens } */
   function getStatus() {
     const { date, minutes } = berlinNow();
@@ -267,13 +301,13 @@ const STRINGS = {
       if (minutes >= start && minutes < end) {
         // Another range starts right at closing time (e.g. café → jazz): don't say "closing soon"
         const continues = today.some(([o2]) => toMin(o2) === end);
-        return { open: true, closes: c, minsLeft: end - minutes, label, continues };
+        return { open: true, closes: c, minsLeft: end - minutes, label, continues, late: isTillLate(date) };
       }
     }
     // Still open from yesterday's late range?
     for (const [o, c] of rangesFor(addDays(date, -1))) {
       const start = toMin(o); const end = toMin(c);
-      if (end <= start && minutes < end) return { open: true, closes: c, minsLeft: end - minutes };
+      if (end <= start && minutes < end) return { open: true, closes: c, minsLeft: end - minutes, late: isTillLate(addDays(date, -1)) };
     }
     // Find the next opening within 14 days
     for (let i = 0; i < 14; i++) {
@@ -294,7 +328,7 @@ const STRINGS = {
     if (s.open) {
       main = s.label ? CONFIG.rangeLabels[s.label][lang] : t('openNow');
       const soon = s.minsLeft <= CONFIG.closingSoonMinutes && !s.continues;
-      detail = fill(t(soon ? 'closingSoon' : 'until'), { t: fmtTime(s.closes) });
+      detail = s.late ? t('tillLate') : fill(t(soon ? 'closingSoon' : 'until'), { t: fmtTime(s.closes) });
     } else {
       main = t('closedNow');
       if (s.opens) {
@@ -322,11 +356,15 @@ const STRINGS = {
       const d = addDays(monday, i);
       const ranges = rangesFor(d);
       const isToday = i === (todayIdx + 6) % 7;
-      const hours = ranges.length
-        ? ranges.map(([o, c, label]) =>
+      const hours = !ranges.length
+        ? `<span class="closed">${t('closed')}</span>`
+        : isTillLate(d)
+        ? `${fmtTime(ranges[0][0])} – ${t('tillLate')}` +
+          ranges.filter(([, , label]) => label && CONFIG.rangeLabels[label].note)
+            .map(([o, , label]) => `<br><span class="range-note">${fill(CONFIG.rangeLabels[label].note[lang], { t: fmtTime(o) })}</span>`).join('')
+        : ranges.map(([o, c, label]) =>
             (label ? `<span class="range-label">${CONFIG.rangeLabels[label][lang]}</span> ` : '') +
-            `${fmtTime(o)}–${fmtTime(c)}`).join('<br>')
-        : `<span class="closed">${t('closed')}</span>`;
+            `${fmtTime(o)}–${fmtTime(c)}`).join('<br>');
       rows.push(
         `<tr${isToday ? ' class="is-today" aria-current="date"' : ''}>` +
         `<th scope="row">${weekdayName(d)}${isToday ? ` <span class="today-tag">${t('today')}</span>` : ''}</th>` +
@@ -478,7 +516,8 @@ const STRINGS = {
   $$('[data-dialog-open]').forEach((btn) => {
     const dlg = document.getElementById(btn.dataset.dialogOpen);
     if (!dlg || typeof dlg.showModal !== 'function') return;
-    btn.addEventListener('click', () => { dialogOpener = btn; dlg.showModal(); });
+    // preventDefault: links (e.g. the booking button) only open their href without JS
+    btn.addEventListener('click', (e) => { e.preventDefault(); dialogOpener = btn; dlg.showModal(); });
   });
   $$('.contact-dialog').forEach((dlg) => {
     $('[data-dialog-close]', dlg).addEventListener('click', () => dlg.close());
