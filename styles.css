@@ -330,17 +330,20 @@ main:focus { outline: none; }
   .has-sub.is-open .nav-sub-toggle svg, .has-sub:hover .nav-sub-toggle svg { transform: rotate(180deg); }
   .sub-menu {
     position: absolute; top: 100%; left: 0; min-width: 200px; padding: 8px;
-    background: var(--surface); border-radius: 14px; box-shadow: 0 14px 36px rgba(30,18,10,.18);
+    background: rgba(20, 20, 20, .45); -webkit-backdrop-filter: blur(10px) saturate(1.2); backdrop-filter: blur(10px) saturate(1.2);
+    border: 1px solid rgba(255,255,255,.18); border-radius: 14px; box-shadow: 0 14px 36px rgba(0,0,0,.18);
     opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .15s, transform .15s, visibility .15s;
   }
   .has-sub:hover .sub-menu, .has-sub:focus-within .sub-menu, .has-sub.is-open .sub-menu { opacity: 1; visibility: visible; transform: none; }
   .main-nav .sub-menu { display: block; }
-  .main-nav .sub-menu a { display: block; white-space: nowrap; color: var(--text); text-shadow: none; border-radius: 10px; }
-  .main-nav .sub-menu a:hover { background: var(--bg-alt); }
+  .main-nav .sub-menu a { display: block; white-space: nowrap; color: #fff; text-shadow: none; border-radius: 10px; }
+  .main-nav .sub-menu a:hover { background: rgba(255,255,255,.16); color: #fff; }
+  /* over the light page the see-through box needs to be darker so the white text stays readable */
+  .site-header--overlay.is-solid .sub-menu, .site-header:not(.site-header--overlay) .sub-menu { background: rgba(34, 34, 34, .82); }
   .site-header--overlay:not(.is-solid) .nav-sub-toggle { color: #fff; text-shadow: 0 1px 8px rgba(0,0,0,.35); }
   .site-header--overlay:not(.is-solid) .nav-sub-toggle:hover { background: rgba(255,255,255,.16); }
-  .site-header--overlay:not(.is-solid) .main-nav .sub-menu a { color: var(--text); text-shadow: none; }
-  .site-header--overlay:not(.is-solid) .main-nav .sub-menu a:hover { background: var(--bg-alt); }
+  .site-header--overlay:not(.is-solid) .main-nav .sub-menu a { color: #fff; text-shadow: none; }
+  .site-header--overlay:not(.is-solid) .main-nav .sub-menu a:hover { background: rgba(255,255,255,.16); }
 }
 
 /* Header over the hero image: transparent at the top, solid once you scroll */
@@ -676,7 +679,7 @@ main:focus { outline: none; }
 .visit-grid { display: grid; gap: clamp(28px, 5vw, 56px); margin-bottom: clamp(28px, 5vw, 48px); }
 @media (min-width: 900px) { .visit-grid { grid-template-columns: 1fr 1fr; align-items: start; } }
 .visit-hours .h4 { margin-top: 0; }
-@media (min-width: 900px) { .visit-hours { padding-top: 52px; } }
+@media (min-width: 900px) { .visit-hours { padding-top: 9px; } } /* heading level with the "open now" badge */
 
 .visit-address { font-style: normal; font-size: 1.2rem; line-height: 1.5; margin-bottom: 1.1em; }
 .visit-address strong { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 600; }
