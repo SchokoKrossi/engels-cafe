@@ -6,9 +6,9 @@ Plain HTML, CSS and JavaScript: no build step, no frameworks, no tracking.
 ```
 index.html        page content (all text, both languages)
 styles.css        design (colours, fonts, layout)
-script.js         CONFIG (hours, menu, form) at the top, logic below
-impressum.html    legal notice (template)
-datenschutz.html  privacy policy (template)
+script.js         CONFIG (hours, menu) at the top, logic below
+impressum.html    legal notice
+datenschutz.html  privacy policy
 images/           optimised WebP photos used by the page
 images/originals/ full-size originals with descriptive names (not loaded by the page)
 favicon.svg, robots.txt, sitemap.xml
@@ -18,7 +18,7 @@ favicon.svg, robots.txt, sitemap.xml
 
 ## Preview locally
 
-Open `index.html` directly in a browser, or run a tiny server (recommended, so `?lang=en` and the form work properly):
+Open `index.html` directly in a browser, or run a tiny server (recommended, so `?lang=en` and the booking pop-up work properly):
 
 ```bash
 python -m http.server 8080
@@ -50,6 +50,8 @@ tue: [],                             // closed
 fri: [['18:00', '01:00']],           // past midnight works
 ```
 
+Days listed in `CONFIG.tillLate` (currently Monday and Friday) show "10:00 – till late" in the table; the real closing times still drive the "Open now" badge. Labelled ranges (e.g. the Monday jazz) are set up in `CONFIG.rangeLabels`.
+
 Holidays and one-off changes go in `CONFIG.specialDays` (`'2026-12-24': [['10:00','14:00']]`, or `[]` for closed).
 The "Open now" badge, the hours table and the highlighted "today" row update automatically, always in Berlin time.
 
@@ -74,23 +76,18 @@ Photos used on the page are optimised WebP files in `images/`. The untouched ful
 To add or replace a photo:
 1. Convert it to WebP, about 1600px on the long side, ideally under 200 KB (use [squoosh.app](https://squoosh.app)). Crop out any Instagram arrows or dots.
 2. Put it in `images/` with a descriptive name, e.g. `images/egg-bagel.webp`.
-3. In `index.html`, copy one gallery `<li>` and change `href` and `src` to the new file. Set `width`/`height` to the photo's real pixel size and write both alt texts (`alt` German, `data-alt-en` English).
-4. The hero uses two sizes (`hero-counter-evening.webp` and `hero-counter-evening-800.webp`). If you change it, update the `<img>` and the `<link rel="preload">` in the `<head>`.
-5. `images/og-image.jpg` (1200×630) is the preview when the link is shared on WhatsApp and elsewhere.
+3. In `index.html`, copy one `<li>` in a photo collage ("Über uns" or "Brunch") and change `href` and `src` to the new file. Set `width`/`height` to the photo's real pixel size and write both alt texts (`alt` German, `data-alt-en` English).
+4. The collages are laid out for six photos each; with more or fewer, check the layout on desktop and phone.
+5. The hero uses two sizes (`hero-counter-evening.webp` and `hero-counter-evening-800.webp`). If you change it, update the `<img>` and the `<link rel="preload">` in the `<head>`.
+6. `images/og-image.jpg` (1200×630) is the preview when the link is shared on WhatsApp and elsewhere.
 
 Event posters live in the Events section. Each card has the poster image plus a text description, so the info is also readable for Google and screen readers.
 
 ### Colours and fonts
 At the top of `styles.css` in `:root`. Change `--accent` to switch terracotta for something else, but check contrast with [webaim.org/resources/contrastchecker](https://webaim.org/resources/contrastchecker/). It needs 4.5:1 against `#FAF6EF` and against white.
 
-### Reservation form
-It runs in **demo mode** by default: it validates and shows a success message, but sends nothing. To receive requests:
-
-- **Formspree:** create a form at formspree.io, then in `script.js` set
-  `form: { mode: 'formspree', endpoint: 'https://formspree.io/f/abcdwxyz' }`.
-- **Netlify Forms:** deploy on Netlify and set `form: { mode: 'netlify' }`. The form already has `data-netlify="true"`. Enable form detection in the Netlify dashboard under *Forms*. Submissions appear there and can be emailed to you.
-
-Name the provider in `datenschutz.html`.
+### Reservations
+The "Tisch reservieren" buttons open a pop-up (`#dlg-reserve` at the bottom of `index.html`). The Lightspeed booking form inside loads only after a click on "Reservierung laden", because it brings in Google reCAPTCHA. Without JavaScript, the buttons open the Lightspeed page directly. The privacy policy describes Lightspeed in section 4.
 
 ## Deploying
 
@@ -104,9 +101,9 @@ The `.claude/` folder is only for local previewing and can be deleted.
 
 ## Privacy (GDPR) notes
 - No cookies and no analytics. The language choice is stored only in the visitor's browser (localStorage).
-- Google Maps and the Lightspeed booking form load only after a click.
+- Nothing from Google is embedded. The Lightspeed booking form loads only after a click. "Auf Google Maps ansehen" is a plain link.
 - **Fonts:** Fraunces and DM Sans are self-hosted in `fonts/` (`@font-face` at the top of `styles.css`), so no visitor data goes to Google. Both are under the SIL Open Font License.
-- Impressum and Datenschutz are **templates only**. Complete them with a generator (e-recht24.de, datenschutz-generator.de) or a lawyer.
+- Impressum and Datenschutz are filled in. Have them checked by a lawyer, and update the privacy policy whenever an external service is added or removed.
 
 ## Accessibility and performance (built in)
-Semantic landmarks, skip link, keyboard-operable nav, tabs (arrow keys), lightbox (arrows, Esc, focus return) and form with inline errors. Visible focus rings, AA contrast, `prefers-reduced-motion` respected, lazy-loaded images with fixed dimensions (no layout shift), and no JS libraries.
+Semantic landmarks, skip link, keyboard-operable nav, tabs (arrow keys), lightbox (arrows, Esc, focus return) and pop-ups (Esc, focus return). Visible focus rings, AA contrast, `prefers-reduced-motion` respected, lazy-loaded images with fixed dimensions (no layout shift), and no JS libraries.
